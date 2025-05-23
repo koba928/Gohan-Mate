@@ -20,7 +20,19 @@ export default async function handler(req, res) {
           messages: [{ role: "user", content: prompt }]
         })
       });
-  
+      if (!response.ok) {
+        const errorData = await response.json();
+        return res.status(500).json({ error: errorData });
+      }
+      
+      const data = await response.json();
+      
+      if (!data.choices || !data.choices[0]) {
+        return res.status(500).json({ error: "AIからの提案が取得できませんでした。" });
+      }
+      
+      res.status(200).json({ result: data.choices[0].message.content });
+      
       const data = await response.json();
       if (
         !data.choices ||
