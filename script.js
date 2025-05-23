@@ -14,18 +14,31 @@ async function getRecommendation(mood) {
       });
   
       if (!response.ok) {
-        throw new Error('APIリクエストに失敗しました');
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'APIリクエストに失敗しました');
       }
   
       const data = await response.json();
-      const recommendation = data.choices[0].message.content;
   
+      if (
+        !data.choices ||
+        !Array.isArray(data.choices) ||
+        !data.choices[0] ||
+        !data.choices[0].message ||
+        !data.choices[0].message.content
+      ) {
+        throw new Error('APIレスポンスの形式が不正です');
+      }
+  
+      const recommendation = data.choices[0].message.content;
       displayResult(recommendation);
+  
     } catch (error) {
       console.error('エラー:', error);
       displayError('申し訳ございません。提案の取得中にエラーが発生しました。');
     }
   }
+  
   
   
 
