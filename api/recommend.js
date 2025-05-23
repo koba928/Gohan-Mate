@@ -14,39 +14,43 @@ export const config = {
     const prompt = `気分が「${mood}」のときにおすすめのご飯を一つ提案してください。`;
   
     try {
-      const response = await fetch("https://api.openai.com/v1/chat/completions", {
-        method: "POST",
+      const response = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`,
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`
         },
         body: JSON.stringify({
-          model: "gpt-4",
-          messages: [{ role: "user", content: prompt }],
+          model: 'gpt-4',
+          messages: [
+            { role: 'user', content: prompt }
+          ],
+          temperature: 0.7,
+          max_tokens: 100
         }),
       });
   
-      const responseData = await response.json();
-  
       if (!response.ok) {
-        return res.status(500).json({ error: responseData.error || "APIエラー" });
+        const errorData = await response.json();
+        return res.status(500).json({ error: errorData });
       }
+  
+      const data = await response.json();
   
       if (
-        !responseData.choices ||
-        !Array.isArray(responseData.choices) ||
-        !responseData.choices[0] ||
-        !responseData.choices[0].message
+        !data.choices ||
+        !Array.isArray(data.choices) ||
+        !data.choices[0] ||
+        !data.choices[0].message
       ) {
-        return res.status(500).json({ error: "AIから有効な応答がありません" });
+        return res.status(500).json({ error: 'AIからの回答が不正です' });
       }
   
-      const message = responseData.choices[0].message.content;
+      const message = data.choices[0].message.content;
       res.status(200).json({ result: message });
-  
     } catch (error) {
-      console.error("APIエラー:", error);
-      res.status(500).json({ error: "APIの呼び出しに失敗しました" });
+      console.error('APIエラー:', error);
+      res.status(500).json({ error: 'API呼び出し中に問題が発生しました' });
     }
   }
   
