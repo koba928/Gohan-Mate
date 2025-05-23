@@ -1,7 +1,24 @@
 // APIキー（実際の開発では環境変数から読み込む）
 // 注意: 本番環境では、APIキーをフロントエンドに直接記載せず、
 // バックエンドサーバーを経由してAPIを呼び出すようにしてください
-const OPENAI_API_KEY = 'YOUR_API_KEY_HERE'; // .envファイルから読み込む想定
+async function getRecommendation(mood) {
+    resultContainer.innerText = '提案を取得中...';
+  
+    try {
+      const response = await fetch('/api/recommend', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ mood })
+      });
+  
+      const data = await response.json();
+      resultContainer.innerText = data.result || '提案が取得できませんでした。';
+    } catch (error) {
+      console.error('エラー:', error);
+      resultContainer.innerText = 'エラーが発生しました。';
+    }
+  }
+  
 
 // DOM要素の取得
 const moodButtons = document.querySelectorAll('.mood-btn');
