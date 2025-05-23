@@ -22,6 +22,15 @@ export default async function handler(req, res) {
       });
   
       const data = await response.json();
+      if (
+        !data.choices ||
+        !Array.isArray(data.choices) ||
+        !data.choices[0] ||
+        !data.choices[0].message
+      ) {
+        return res.status(500).json({ error: '不正なレスポンスが返ってきました' });
+      }
+      
       const message = data.choices?.[0]?.message?.content;
       res.status(200).json({ result: message });
   
