@@ -2,22 +2,31 @@
 // 注意: 本番環境では、APIキーをフロントエンドに直接記載せず、
 // バックエンドサーバーを経由してAPIを呼び出すようにしてください
 async function getRecommendation(mood) {
-    resultContainer.innerText = '提案を取得中...';
+    showLoading();
   
     try {
       const response = await fetch('/api/recommend', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json'
+        },
         body: JSON.stringify({ mood })
       });
   
+      if (!response.ok) {
+        throw new Error('APIリクエストに失敗しました');
+      }
+  
       const data = await response.json();
-      resultContainer.innerText = data.result || '提案が取得できませんでした。';
+      const recommendation = data.choices[0].message.content;
+  
+      displayResult(recommendation);
     } catch (error) {
       console.error('エラー:', error);
-      resultContainer.innerText = 'エラーが発生しました。';
+      displayError('申し訳ございません。提案の取得中にエラーが発生しました。');
     }
   }
+  
   
 
 // DOM要素の取得
@@ -38,11 +47,12 @@ async function getRecommendation(mood) {
     showLoading();
 
     try {
-        const response = await fetch('https://api.openai.com/v1/chat/completions', {
+        const response = await fetch('/api/recommend', {
+
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${OPENAI_API_KEY}`
+                
             },
             body: JSON.stringify({
                 model: 'gpt-4',
