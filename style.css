@@ -1,0 +1,254 @@
+/* リセットとベース設定 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary-color: #FFC107;
+    --primary-hover: #FFB300;
+    --text-dark: #212529;
+    --text-secondary: #6C757D;
+    --bg-white: #FFFFFF;
+    --bg-light: #F8F9FA;
+    --shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    --shadow-hover: 0 4px 16px rgba(0, 0, 0, 0.15);
+    --border-radius: 12px;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+    color: var(--text-dark);
+    background-color: var(--bg-white);
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.container {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    flex: 1;
+}
+
+/* ヘッダー */
+header {
+    text-align: center;
+    margin-bottom: 40px;
+    padding-top: 20px;
+}
+
+.title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 8px;
+}
+
+.title::before {
+    content: '';
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background-color: var(--primary-color);
+    border-radius: 50%;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+.subtitle {
+    font-size: 1rem;
+    color: var(--text-secondary);
+}
+
+/* 気分セクション */
+.mood-section {
+    background-color: var(--bg-light);
+    border-radius: var(--border-radius);
+    padding: 32px;
+    margin-bottom: 32px;
+}
+
+.mood-section h2 {
+    text-align: center;
+    font-size: 1.5rem;
+    margin-bottom: 24px;
+    color: var(--text-dark);
+}
+
+.mood-buttons {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 16px;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.mood-btn {
+    background-color: var(--bg-white);
+    border: 2px solid transparent;
+    border-radius: var(--border-radius);
+    padding: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.mood-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.mood-btn:hover .label {
+    color: var(--text-dark);
+}
+
+.mood-btn:active {
+    transform: translateY(0);
+}
+
+.mood-btn .emoji {
+    font-size: 2rem;
+    display: block;
+}
+
+.mood-btn .label {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    transition: color 0.3s ease;
+}
+
+/* 結果セクション */
+.result-section {
+    min-height: 200px;
+}
+
+.result-container {
+    background-color: var(--bg-white);
+    border-radius: var(--border-radius);
+    padding: 32px;
+    box-shadow: var(--shadow);
+    min-height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.result-container:empty::before {
+    content: '気分ボタンを押すと、おすすめが表示されます';
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.result-content {
+    animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.result-genre {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 16px;
+}
+
+.result-reason {
+    font-size: 1rem;
+    color: var(--text-dark);
+    line-height: 1.8;
+}
+
+/* ローディング状態 */
+.loading {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    border: 4px solid var(--bg-light);
+    border-top: 4px solid var(--primary-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.loading-text {
+    margin-top: 12px;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+/* エラー表示 */
+.error {
+    color: #DC3545;
+    padding: 16px;
+    background-color: #F8D7DA;
+    border-radius: 8px;
+    font-size: 0.9rem;
+}
+
+/* フッター */
+footer {
+    text-align: center;
+    padding: 24px;
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    border-top: 1px solid var(--bg-light);
+    margin-top: auto;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 600px) {
+    .title {
+        font-size: 2rem;
+    }
+
+    .mood-section {
+        padding: 24px 16px;
+    }
+
+    .mood-buttons {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+
+    .mood-btn {
+        padding: 16px;
+    }
+
+    .mood-btn .emoji {
+        font-size: 1.5rem;
+    }
+
+    .mood-btn .label {
+        font-size: 0.875rem;
+    }
+
+    .result-container {
+        padding: 24px 16px;
+    }
+}

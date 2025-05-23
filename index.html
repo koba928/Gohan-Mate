@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GohanMate - 気分でごはんを決めよう</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1 class="title">🍜 GohanMate</h1>
+            <p class="subtitle">今の気分で、ぴったりのごはんを提案します</p>
+        </header>
+
+        <main>
+            <section class="mood-section">
+                <h2>今の気分は？</h2>
+                <div class="mood-buttons">
+                    <button class="mood-btn" data-mood="軽め">
+                        <span class="emoji">🥗</span>
+                        <span class="label">軽め</span>
+                    </button>
+                    <button class="mood-btn" data-mood="がっつり">
+                        <span class="emoji">🍖</span>
+                        <span class="label">がっつり</span>
+                    </button>
+                    <button class="mood-btn" data-mood="麺系">
+                        <span class="emoji">🍜</span>
+                        <span class="label">麺系</span>
+                    </button>
+                    <button class="mood-btn" data-mood="安価">
+                        <span class="emoji">💰</span>
+                        <span class="label">安価</span>
+                    </button>
+                    <button class="mood-btn" data-mood="食べ放題">
+                        <span class="emoji">🍽️</span>
+                        <span class="label">食べ放題</span>
+                    </button>
+                </div>
+            </section>
+
+            <section class="result-section">
+                <div id="result" class="result-container">
+                    <!-- 結果がここに表示されます -->
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2024 GohanMate. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
