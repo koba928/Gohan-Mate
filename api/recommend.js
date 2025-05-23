@@ -4,7 +4,7 @@ export const config = {
     },
   };
   
-export default async function handler(req, res) {
+  export default async function handler(req, res) {
     const { mood } = req.body;
   
     if (!process.env.OPENAI_API_KEY) {
@@ -18,41 +18,35 @@ export default async function handler(req, res) {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`
+          "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`,
         },
         body: JSON.stringify({
           model: "gpt-4",
-          messages: [{ role: "user", content: prompt }]
-        })
+          messages: [{ role: "user", content: prompt }],
+        }),
       });
+  
+      const responseData = await response.json();
+  
       if (!response.ok) {
-        const errorData = await response.json();
-        return res.status(500).json({ error: errorData });
+        return res.status(500).json({ error: responseData.error || "APIエラー" });
       }
-      
-      const data = await response.json();
-      
-      if (!data.choices || !data.choices[0]) {
-        return res.status(500).json({ error: "AIからの提案が取得できませんでした。" });
-      }
-      
-      res.status(200).json({ result: data.choices[0].message.content });
-      
-      const data = await response.json();
+  
       if (
-        !data.choices ||
-        !Array.isArray(data.choices) ||
-        !data.choices[0] ||
-        !data.choices[0].message
+        !responseData.choices ||
+        !Array.isArray(responseData.choices) ||
+        !responseData.choices[0] ||
+        !responseData.choices[0].message
       ) {
-        return res.status(500).json({ error: '不正なレスポンスが返ってきました' });
+        return res.status(500).json({ error: "AIから有効な応答がありません" });
       }
-      
-      const message = data.choices?.[0]?.message?.content;
+  
+      const message = responseData.choices[0].message.content;
       res.status(200).json({ result: message });
   
     } catch (error) {
-      res.status(500).json({ error: 'API呼び出しに失敗しました。' });
+      console.error("APIエラー:", error);
+      res.status(500).json({ error: "APIの呼び出しに失敗しました" });
     }
   }
   
