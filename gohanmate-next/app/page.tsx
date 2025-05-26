@@ -38,9 +38,10 @@ const shops = [
 export default function Home() {
   return (
     <main style={{ maxWidth: '800px', margin: '0 auto', padding: '20px' }}>
-      {shops.map((shop, idx) => (
-        <ShopCard key={idx} {...shop} />
-      ))}
-    </main>
+  {Array.isArray(shops) && shops.map((shop, idx) => (
+    <ShopCard key={idx} {...shop} />
+  ))}
+</main>
+
   );
 }
