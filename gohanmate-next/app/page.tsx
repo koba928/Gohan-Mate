@@ -2,6 +2,12 @@
 
 import ShopCard from '../components/ShopCard';
 
+
+
+
+
+
+
 const shops = [
   {
     name: '焼肉 太郎',
