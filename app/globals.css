@@ -1,0 +1,31 @@
+body {
+  background: #f9f9f9;         /* やわらかい薄グレー背景 */
+  color: #333;                 /* 濃いめのグレーで可読性アップ */
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+}
+
+a {
+  color: #f39c12;              /* 食べログっぽいオレンジリンク */
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.card {
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.tag {
+  background-color: #fef5e7;  /* オレンジ系のやさしいタグ背景 */
+  color: #d35400;             /* 濃いオレンジ文字 */
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-size: 12px;
+  margin-right: 6px;
+}
